@@ -105,9 +105,13 @@
                         <a class="waves-effect" href="{{ route('sms_messages') }}"><i class="menu-icon  fa fa-comment-o"></i><span>إدارة الرسائل  </span></a>
                     </li>
                    @endcanany
+                   @canany(['local_block_lists','local_block_lists_uplode'])
 
-                 
+                   <li class="{{ Request::is('local_block_lists') ? 'current' : '' }} ">
+                    <a class="waves-effect" href="{{ route('local_block_lists') }}"><i class="menu-icon  fa fa-comment-o"></i><span>قوائم الحظر المحلية  </span></a>
+                </li>
                   
+                @endcanany
                 </ul>
                
                

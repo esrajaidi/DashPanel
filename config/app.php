@@ -174,6 +174,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
 
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
 
     ])->toArray(),
@@ -193,6 +194,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Captcha' => Mews\Captcha\Facades\Captcha::class,
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
 
     ])->toArray(),

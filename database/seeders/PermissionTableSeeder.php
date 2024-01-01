@@ -35,7 +35,11 @@ class PermissionTableSeeder extends Seeder
            'sms-messages',//14
            'send-sms-messages' ,//15
            'bulk-send-sms-messages', //16
-          
+
+           'local_block_lists',//17
+           'local_block_lists_uplode' ,//18
+           'local_block_lists_create' ,//19
+
 
          ];
       

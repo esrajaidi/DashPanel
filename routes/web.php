@@ -74,5 +74,12 @@ Route::group(['middleware' => ['auth']], function() {
 
         
 
+        Route::get('local_block_lists/uplode', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'uplode'])->name('local_block_lists/uplode');
+        Route::post('local_block_lists/uplode', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'storeUplode'])->name('local_block_lists/store_uplode');
+
+        Route::get('local_block_lists', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'index'])->name('local_block_lists');
+        Route::get('local_block_lists/create', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'create'])->name('local_block_lists/create');
+        Route::post('local_block_lists/create', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'store'])->name('local_block_lists/store');
+
 
 });
