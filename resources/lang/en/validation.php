@@ -277,7 +277,14 @@ return [
         'employer_message_file'=>'صورة رسالة جهة العمل',
         'message_text'=>'نص الرسالة',
         'file_phone_number'=>' ملف excel',
-        'captcha'=>'الرمز'
+        'captcha'=>'الرمز',
+        'statement'=>'البيان',
+        'hiddenBy'=>'الجهة التي أصدرت التجميد',
+        'dateofreceivedMessage'=>'تاريخ الرسالة الواردة',
+        'index'=>'الرقم الاشاري',
+        'notes'=>'ملاحظه',
+        'statu'=>'الحالة',
+        'file_name'=>'إسم الملف'
 
     
         

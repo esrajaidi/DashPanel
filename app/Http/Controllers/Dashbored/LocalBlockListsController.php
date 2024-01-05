@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\LocalBlockListsImport;
 use App\Models\LocalBlockLists;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use Maatwebsite\Excel\Facades\Excel;
@@ -23,7 +24,9 @@ class LocalBlockListsController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('permission:local_block_lists', ['only' => ['local_block_lists']]);
-        $this->middleware('permission:local_block_lists_uplode', ['only' => ['uplode','storeUplode']]);
+        $this->middleware('permission:local_block_lists-uplode', ['only' => ['uplode','storeUplode']]);
+        $this->middleware('permission:local_block_lists-create', ['only' => ['create','store']]);
+        $this->middleware('permission:local_block_lists-edit', ['only' => ['edit','update']]);
 
         
     }
@@ -62,7 +65,16 @@ class LocalBlockListsController extends Controller
                 else
                 return  '<span class="label label-danger"> تم تجميده</span>';
             })
-            ->rawColumns(['statu'])
+            ->addColumn('edit', function ($data) {
+                if(Auth::user()->can('local_block_lists-edit'))
+
+                return '<a class="btn btn-primary btn-xs waves-effect waves-light" href="' . route('local_block_lists/edit',  encrypt($data->id)) . '">تعديل </a>';
+                else 
+
+                return '';
+            
+            })
+            ->rawColumns(['statu','edit'])
                     ->make(true);
         }
     
@@ -147,24 +159,18 @@ class LocalBlockListsController extends Controller
     public function store(Request $request)
     {
        
+
         $this->validate($request, [
-
-            'statement' => ['required'],
-            'hiddenBy' => ['required'],
+            'statement' => ['required', 'string','unique:local_block_lists'],
+            'hiddenBy' => ['required','string'],
             'dateofreceivedMessage' => ['required'],
-            'index' => ['required'],
-
-
+            'index' => ['required','string'],
         ]);
+        
         try {
             DB::transaction(function () use ($request) {
-                $local_block = DB::table('local_block_lists')
-                ->latest()
-                ->first();
-                dd($local_block);
 
                 $localBlockLists = new LocalBlockLists();
-                $localBlockLists->rt=($local_block==null) ? 0 : $local_block->rt + 1;
                 $localBlockLists->statement=$request->statement;
                 $localBlockLists->hiddenBy=$request->hiddenBy;
                 $localBlockLists->dateofreceivedMessage=$request->dateofreceivedMessage;
@@ -198,17 +204,57 @@ class LocalBlockListsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LocalBlockLists $localBlockLists)
+    public function edit($id)
     {
-        //
+        $localBlockLists_id = decrypt($id);
+        $localBlockLists = LocalBlockLists::find($localBlockLists_id);
+        ActivityLogger::activity($localBlockLists->name . ":عرض صفحة تعديل  بيانات  شركة من قوائم الحظر المحلية");
+        return view('dashboard.local_block_lists.edit')->with('localBlockLists', $localBlockLists);
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, LocalBlockLists $localBlockLists)
+    public function update(Request $request, $id)
     {
-        //
+        $localBlockLists_id = decrypt($id);
+
+        $this->validate($request, [
+            'statement' => ['required', 'string','unique:local_block_lists,statement,'.$localBlockLists_id],
+            'hiddenBy' => ['required','string'],
+            'dateofreceivedMessage' => ['required'],
+            'index' => ['required','string'],
+        ]);
+
+    
+        
+
+        try {
+            $localBlockLists = LocalBlockLists::find($localBlockLists_id);
+
+            DB::transaction(function () use ($request, $localBlockLists) {
+                $localBlockLists->statement=$request->statement;
+                $localBlockLists->hiddenBy=$request->hiddenBy;
+                $localBlockLists->dateofreceivedMessage=$request->dateofreceivedMessage;
+                $localBlockLists->index=$request->index;
+                $localBlockLists->notes=$request->notes;
+                $localBlockLists->statu=($localBlockLists->notes== null) ? 1 : 0;
+                 ActivityLogger::activity($localBlockLists->id. ":تعديل بيانات  شركة من قوائم الحظر المحلية ");
+                $localBlockLists->save();
+
+            });
+
+            Alert::success('تمت عملية تعديل بيانات'.$localBlockLists->statement.' من قوائم الحظر المحلية بنجاح');
+
+            return redirect()->route('local_block_lists');
+        } catch (\Exception $e) {
+
+            Alert::warning($e->getMessage());
+            ActivityLogger::activity($localBlockLists_id . ":  فشل تعديل بيانات شركة من قوائم الحظر المحلية ");
+
+            return redirect()->back();
+        }
     }
 
     /**

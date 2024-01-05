@@ -27,7 +27,6 @@ class LocalBlockListsImport implements ToModel , WithStartRow
         
 
         return new LocalBlockLists([
-         'rt' => $row[0],
            'statement' => trim($row[1]),
            'hiddenBy'=>trim($row[2]),
            'dateofreceivedMessage' => $this->convertToDateTime($row[3]),

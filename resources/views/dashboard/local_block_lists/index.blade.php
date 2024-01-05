@@ -8,13 +8,13 @@
         <h3 ><i class="ico fa fa-comment-o"></i> @yield('title')</h3>
         <br>
 
-        @can('local_block_lists_uplode')
+        @can('local_block_lists-uplode')
 
         <a class="btn btn-success" href="{{ route('local_block_lists/uplode') }}">تحميل ملف  قوائم الحظر المحلية</a>
 
        @endcan  
      
-       @can('local_block_lists_create')
+       @can('local_block_lists-create')
 
         <a class="btn btn-success" href="{{ route('local_block_lists/create') }}">اضافة شركة لقوائم الحظر المحلية</a>
 
@@ -63,7 +63,6 @@
     <table class="table table-striped" style="width: 100%" id="local_block_lists_tbl">
       <thead>
          <tr>
-           <th></th>
           <th>ر.ت</th>
           <th>البيان</th>
           <th>الجهة التي أصدرت التجميد</th>
@@ -71,6 +70,7 @@
           <th> تاريخ الرسالة الواردة</th>
           <th>الرقم الاشاري</th>
           <th>الملاحظات</th>
+          <th></th>
           <th></th>
 
          </tr>
@@ -117,14 +117,13 @@ $(document).ready(function(){
                           return meta.row + meta.settings._iDisplayStart + 1;
                       }
                   },
-                  {data: 'rt', name: 'rt'},
                   {data: 'statement', name: 'statement'},
                   {data: 'hiddenBy', name: 'hiddenBy'},
                   {data: 'dateofreceivedMessage', name: 'dateofreceivedMessage'},
                   {data: 'index', name: 'index'},
                   {data: 'notes', name: 'notes'},
                   {data: 'statu', name: 'statu'},
-                  // {data: 'file_name', name: 'file_name'},
+                  {data: 'edit', name: 'edit'},
 
                   
                   
@@ -133,7 +132,7 @@ $(document).ready(function(){
           });
           }
            
-      $('#reset').click(function(){
+        $('#reset').click(function(){
         $('#statement').val('');
         $('#index').val('');
         $('#dateofreceivedMessage').val('');
