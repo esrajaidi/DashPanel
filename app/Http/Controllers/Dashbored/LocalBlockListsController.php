@@ -9,6 +9,7 @@ use App\Models\LocalBlockLists;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use jeremykenedy\LaravelLogger\App\Http\Traits\ActivityLogger;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -34,53 +35,107 @@ class LocalBlockListsController extends Controller
     }
      
   
-        
-
     public function index(Request $request)
     {
-        // ActivityLogger::activity("قوائم الحظر المحلية");
-        // $data = LocalBlockLists::latest()->get();
-        // // $data=$data->where('statement', 'Like', '%شركة فالكون لإستيراد السيارت وقطع الغيار%')->all();
-        // dd($data);
-        // if(!empty($request->statement)){
+    if ($request->ajax()) {
+    $data = LocalBlockLists::latest()->get();
+    return Datatables::of($data)
+    ->addIndexColumn()
+    ->filter(function ($instance) use ($request) {
+    if (!empty($request->statement)) {
+    $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+    return Str::contains($row['statement'], $request->get('statement')) ? true : false;
+    });
+    }
+    if (!empty($request->index)) {
+        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+        return Str::contains($row['index'], $request->get('index')) ? true : false;
+        });
+    }
+    if (!empty($request->dateofreceivedMessage)) {
+        $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+        return Str::contains($row['dateofreceivedMessage'], $request->get('dateofreceivedMessage')) ? true : false;
+        });
+    }
+    // if (!empty($request->get('search'))) {
+    // $instance->collection = $instance->collection->filter(function ($row) use ($request) {
+    // if (Str::contains(Str::lower($row['email']), Str::lower($request->get('search')))){
+    // return true;
+    // }else 
+    // if (Str::contains(Str::lower($row['name']), Str::lower($request->get('search')))) {
+    // return true;
+    // }
+    // return false;
+    // });
+    // }
+    })
+    ->addColumn('statu', function ($data) {    
+                    if($data->statu==0)
+                    return '<span class="label label-success">رفع تجميد</span>';
+                    else
+                    return  '<span class="label label-danger"> تم تجميده</span>';
+                })
+                ->addColumn('edit', function ($data) {
+                    if(Auth::user()->can('local_block_lists-edit'))
+    
+                    return '<a class="btn btn-primary btn-xs waves-effect waves-light" href="' . route('local_block_lists/edit',  encrypt($data->id)) . '">تعديل </a>';
+                    else 
+    
+                    return '';
+                
+                })
+                ->rawColumns(['statu','edit'])
+                        ->make(true);
+    }
+       return view('dashboard.local_block_lists.index');
+}
+    
 
-        // }
-        if ($request->ajax()) {
-            $data = LocalBlockLists::latest()->get();
-            // $request->statement="ف";
-            // if(!empty($request->statement)){
-            //     $data=$data->where('statement', 'like', '%'.$request->statement.'%')->get();
-            //     dd($request);
+    // public function index(Request $request)
+    // {
+    //     // ActivityLogger::activity("قوائم الحظر المحلية");
+    //     // $data = LocalBlockLists::latest()->get();
+    //     // // $data=$data->where('statement', 'Like', '%شركة فالكون لإستيراد السيارت وقطع الغيار%')->all();
+    //     // dd($data);
+    //     // if(!empty($request->statement)){
 
-            // }
+    //     // }
+    //     if ($request->ajax()) {
+    //         $data = LocalBlockLists::latest()->get();
+    //         // $request->statement="ف";
+    //         // if(!empty($request->statement)){
+    //         //     $data=$data->where('statement', 'like', '%'.$request->statement.'%')->get();
+    //         //     dd($request);
+
+    //         // }
         
             
-            return Datatables::of($data)
-                    ->addIndexColumn()
+    //         return Datatables::of($data)
+    //                 ->addIndexColumn()
                     
-                     ->addColumn('statu', function ($data) {
+    //                  ->addColumn('statu', function ($data) {
                 
                 
-                if($data->statu==0)
-                return '<span class="label label-success">رفع تجميد</span>';
-                else
-                return  '<span class="label label-danger"> تم تجميده</span>';
-            })
-            ->addColumn('edit', function ($data) {
-                if(Auth::user()->can('local_block_lists-edit'))
+    //             if($data->statu==0)
+    //             return '<span class="label label-success">رفع تجميد</span>';
+    //             else
+    //             return  '<span class="label label-danger"> تم تجميده</span>';
+    //         })
+    //         ->addColumn('edit', function ($data) {
+    //             if(Auth::user()->can('local_block_lists-edit'))
 
-                return '<a class="btn btn-primary btn-xs waves-effect waves-light" href="' . route('local_block_lists/edit',  encrypt($data->id)) . '">تعديل </a>';
-                else 
+    //             return '<a class="btn btn-primary btn-xs waves-effect waves-light" href="' . route('local_block_lists/edit',  encrypt($data->id)) . '">تعديل </a>';
+    //             else 
 
-                return '';
+    //             return '';
             
-            })
-            ->rawColumns(['statu','edit'])
-                    ->make(true);
-        }
+    //         })
+    //         ->rawColumns(['statu','edit'])
+    //                 ->make(true);
+    //     }
     
-        return view('dashboard.local_block_lists.index');
-    }
+    //     return view('dashboard.local_block_lists.index');
+    // }
 
 
     
@@ -165,15 +220,13 @@ class LocalBlockListsController extends Controller
      */
     public function store(Request $request)
     {
-       
-
+    
         $this->validate($request, [
             'statement' => ['required', 'string','unique:local_block_lists'],
             'hiddenBy' => ['required','string'],
             'dateofreceivedMessage' => ['required'],
             'index' => ['required','string'],
         ]);
-        
         try {
             DB::transaction(function () use ($request) {
 
