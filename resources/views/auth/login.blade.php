@@ -98,7 +98,7 @@
 					
 					<!-- /.row -->
 					{{-- <a href="page-register.html" class="a-link"><i class="fa fa-key"></i> to injaAdmin? .</a> --}}
-					<div class="frm-footer">الأندلس © 2023.</div>
+					<div class="frm-footer">الأندلس © 2024.</div>
 					<!-- /.footer -->
 					</form>
 				</div>
