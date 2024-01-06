@@ -83,5 +83,6 @@ Route::group(['middleware' => ['auth']], function() {
 
         Route::get('local_block_lists/edit/{id}', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'edit'])->name('local_block_lists/edit');
         Route::POST('local_block_lists/edit/{id}', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'update'])->name('local_block_lists/update');
+        Route::get('local_block_lists/export', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'export'])->name('local_block_lists/export');
 
 });

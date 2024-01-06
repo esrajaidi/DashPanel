@@ -39,7 +39,9 @@ class PermissionTableSeeder extends Seeder
            'local_block_lists',//17
            'local_block_lists-uplode' ,//18
            'local_block_lists-create' ,//19
-            'local_block_lists-edit' //20
+            'local_block_lists-edit' ,//20
+            'local_block_lists-export' ,//21
+
 
          ];
       

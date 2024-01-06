@@ -84,11 +84,11 @@
                             <div class="form-group">
                                 <label> ملاحظه</label>
     
-                                <textarea type="text" class="form-control" name="note"   cols="50" rows="10"   placeholder="ملاحظه " >
-                                    {{$localBlockLists->note}}
+                                <textarea type="text" class="form-control" name="notes"   cols="50" rows="10"   placeholder="ملاحظه " >
+                                    {{$localBlockLists->notes}}
                                 </textarea>
     
-                                @error('note')
+                                @error('notes')
                                     <span class="text-danger" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span> 

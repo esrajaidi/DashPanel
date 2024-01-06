@@ -5,7 +5,7 @@
 <div class="row small-spacing">
     <div class="col-xs-12">
       <div class="box-content">
-        <h3 ><i class="ico fa fa-comment-o"></i> @yield('title')</h3>
+        <h3 ><i class="ico fa fa-list-ul"></i> @yield('title')</h3>
         <br>
 
         @can('local_block_lists-uplode')
@@ -19,6 +19,11 @@
         <a class="btn btn-success" href="{{ route('local_block_lists/create') }}">اضافة شركة لقوائم الحظر المحلية</a>
 
        @endcan  
+       @can('local_block_lists-export')
+
+       <a class="btn btn-success" href="{{ route('local_block_lists/export') }}">تصدير  قوائم الحظر المحلية</a>
+
+      @endcan
 
         <br>
         <br>

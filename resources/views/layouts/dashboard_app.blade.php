@@ -105,10 +105,11 @@
                         <a class="waves-effect" href="{{ route('sms_messages') }}"><i class="menu-icon  fa fa-comment-o"></i><span>إدارة الرسائل  </span></a>
                     </li>
                    @endcanany
-                   @canany(['local_block_lists','local_block_lists_uplode'])
+                   @canany(['local_block_lists','local_block_lists_uplode','local_block_lists-create'
+                   ,'local_block_lists-edit','local_block_lists-export'])
 
                    <li class="{{ Request::is('local_block_lists') ? 'current' : '' }} ">
-                    <a class="waves-effect" href="{{ route('local_block_lists') }}"><i class="menu-icon  fa fa-comment-o"></i><span>قوائم الحظر المحلية  </span></a>
+                    <a class="waves-effect" href="{{ route('local_block_lists') }}"><i class="menu-icon  fa fa-list-ul"></i><span>قوائم الحظر المحلية  </span></a>
                 </li>
                   
                 @endcanany

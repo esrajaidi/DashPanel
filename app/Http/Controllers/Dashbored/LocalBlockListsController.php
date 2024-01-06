@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Dashbored;
 
+use App\Exports\LocalBlockListsExport;
 use App\Http\Controllers\Controller;
 use App\Imports\LocalBlockListsImport;
 use App\Models\LocalBlockLists;
@@ -27,6 +28,7 @@ class LocalBlockListsController extends Controller
         $this->middleware('permission:local_block_lists-uplode', ['only' => ['uplode','storeUplode']]);
         $this->middleware('permission:local_block_lists-create', ['only' => ['create','store']]);
         $this->middleware('permission:local_block_lists-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:local_block_lists-export', ['only' => ['export']]);
 
         
     }
@@ -51,8 +53,7 @@ class LocalBlockListsController extends Controller
             //     dd($request);
 
             // }
-           
-
+        
             
             return Datatables::of($data)
                     ->addIndexColumn()
@@ -96,6 +97,12 @@ class LocalBlockListsController extends Controller
 
     }
 
+    public function export(Request $request){
+
+    $fileName="LocalBlockLists".str_replace( array( '\'', '/',"-" ), '', Now()->toDateString()).".xlsx";
+    return Excel::download(new LocalBlockListsExport($request), $fileName);
+    }
+   
 
     
     /**
@@ -182,7 +189,7 @@ class LocalBlockListsController extends Controller
                 $localBlockLists->save();
             });
 
-            Alert::success('تمت عملية إرسال رسالة بنجاح');
+            Alert::success('تمت إضافة شركة  '.$request->statement.' لقوائم الحظر المحلية');
             return redirect()->route('local_block_lists');
         } catch (\Exception $e) {
 

@@ -6,8 +6,9 @@ use App\Models\LocalBlockLists;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
-class LocalBlockListsImport implements ToModel , WithStartRow
+class LocalBlockListsImport implements ToModel , WithStartRow 
 {
 
     protected $fileName;
@@ -25,13 +26,14 @@ class LocalBlockListsImport implements ToModel , WithStartRow
     {
        
         
+        
 
         return new LocalBlockLists([
            'statement' => trim($row[1]),
            'hiddenBy'=>trim($row[2]),
            'dateofreceivedMessage' => $this->convertToDateTime($row[3]),
            'index' => trim($row[4]),
-           'notes' => trim($row[5]),
+           'notes' => ($row[5]== null) ? null : trim($row[5]),
            'statu' => ($row[5]== null) ? 1 : 0,
            'file_name'=> $this->fileName,
 
@@ -45,10 +47,10 @@ class LocalBlockListsImport implements ToModel , WithStartRow
 
     public function convertToDateTime($datetime){
         
-
-        $date = str_replace('.', '-', $datetime);
-        $newDate = date("Y-m-d", strtotime($date));
-       return $newDate;
+        $int = (int)$datetime;
+       return Date::excelToDateTimeObject($int);
+       
+       
     }
        
     
