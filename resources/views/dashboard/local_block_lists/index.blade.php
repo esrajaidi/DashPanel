@@ -46,7 +46,7 @@
             </div>
               <div class="col-md-3">
                 <div class="form-group">
-                    <label>تاريخ الواردة </label>
+                    <label>تاريخ  الرسالة الواردة </label>
                     <input type="date" name="dateofreceivedMessage" id="dateofreceivedMessage" class="form-control">
                    
                 </div>
@@ -91,15 +91,6 @@
 
 $(document).ready(function(){
   fill_datatable();
-      
-
-          //   $("#statement").keyup(function(){
-          //     table.draw();
-          // });
-
-          // $("#index").keyup(function(){
-          //     table.draw();
-          // });
           function fill_datatable(statement='',index='',dateofreceivedMessage='')
           {
             var table = $('#local_block_lists_tbl').DataTable({
