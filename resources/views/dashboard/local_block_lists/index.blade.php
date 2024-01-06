@@ -105,6 +105,8 @@ $(document).ready(function(){
             var table = $('#local_block_lists_tbl').DataTable({
             processing: true,
             serverSide: true,
+            searching: false, 
+
             ajax: {
               url: "{{ route('local_block_lists') }}",
               data:{statement:statement,
