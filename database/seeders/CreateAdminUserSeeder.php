@@ -30,21 +30,25 @@ class CreateAdminUserSeeder extends Seeder
      
         $user->assignRole([$role->id]);
 
-          //  //4
-          $role4 = Role::create(['id'=> 14,'name' => 'عرض الرسائل المرسلة']);
-          $permissions4 = Permission::whereIn('id', [22])->pluck('id','id')->all();
-          $role4->syncPermissions($permissions4);
+          //  //1
+          $role2 = Role::create(['id'=> 2,'name' => 'عرض الرسائل المرسلة']);
+          $permissions2 = Permission::whereIn('id', [14])->pluck('id','id')->all();
+          $role2->syncPermissions($permissions2);
  //
  
-          $role5 = Role::create(['id'=> 5,'name' => 'إرسال رسالة']);
-          $permissions5 = Permission::whereIn('id', [23])->pluck('id','id')->all();
-          $role5->syncPermissions($permissions5);
+          $role3 = Role::create(['id'=> 3,'name' => 'إرسال رسالة']);
+          $permissions3 = Permission::whereIn('id', [15])->pluck('id','id')->all();
+          $role3->syncPermissions($permissions3);
  
-          $role6 = Role::create(['id'=> 6,'name' => 'تحميل ملف excel لارسال رسائل']);
-          $permissions6 = Permission::whereIn('id', [24])->pluck('id','id')->all();
-          $role6->syncPermissions($permissions6);
+          $role4 = Role::create(['id'=> 4,'name' => 'تحميل ملف excel لارسال رسائل']);
+          $permissions4 = Permission::whereIn('id', [16])->pluck('id','id')->all();
+          $role4->syncPermissions($permissions4);
 
     
+          $role5 = Role::create(['id'=> 5,'name' => 'إدارة  قوائم الحظر المحلية']);
+          $permissions5 = Permission::whereIn('id', [17,18,19,20,21])->pluck('id','id')->all();
+          $role5->syncPermissions($permissions5);
+
 
          
 
