@@ -182,15 +182,17 @@ class LocalBlockListsController extends Controller
 
             $file = $request->file('file_local_block_lists');
             $fileName = $file->getClientOriginalName();
-            $existsRecord=LocalBlockLists::where('file_name',"=",$fileName)->count();
-            if($existsRecord != 0){
-                Alert::warning("لقد سبق وتم تحميل هذا الملف مسبقا (". $fileName.")");
-                return redirect()->back();
-             }
+            // $existsRecord=LocalBlockLists::where('file_name',"=",$fileName)->count();
+            // if($existsRecord != 0){
+            //     Alert::warning("لقد سبق وتم تحميل هذا الملف مسبقا (". $fileName.")");
+            //     return redirect()->back();
+            //  }
            
 
             DB::transaction(function () use ($request,$fileName) {
-    
+                //remove old data
+                DB::table('local_block_lists')->delete();  
+
                 Excel::import(new LocalBlockListsImport($fileName),
                       $request->file('file_local_block_lists')->store('files'));
                       
