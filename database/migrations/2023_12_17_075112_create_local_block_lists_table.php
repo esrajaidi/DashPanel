@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('local_block_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('statement')->unique();
+            $table->text('statement');
             $table->string('hiddenBy');
             $table->date('dateofreceivedMessage');
             $table->string('index');
