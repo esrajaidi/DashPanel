@@ -12,12 +12,8 @@ class LocalBlockListsExport implements FromCollection ,WithHeadings
 {
     use Exportable;
 
-    protected $request;
 
-    public function __construct($request)
-    {
-        $this->request = $request;
-    }
+    
 
     
     public function map($data): array
@@ -27,7 +23,6 @@ class LocalBlockListsExport implements FromCollection ,WithHeadings
     // set the collection of members to export
     public function collection()
     {   
-        $request = $this->request;  
 
         $local_block_lists = LocalBlockLists::query();
         $local_block_lists = $local_block_lists->get();

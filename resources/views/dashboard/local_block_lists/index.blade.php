@@ -60,6 +60,10 @@
               <button type="button" name="filter" id="filter" class="btn btn-info">بحث</button>
 
               <button type="button" name="reset" id="reset" class="btn btn-default">تحديث</button>
+
+
+              <button type="button" name="print" id="print" style="display: none" class="btn btn-warning">طباعة</button>
+
           </div>
           </div>
 
@@ -142,6 +146,12 @@ $(document).ready(function(){
          $('#filter').click(function(){
         var statement = $('#statement').val();
         var index = $('#index').val();
+
+        if((index.length!= 0)  || (statement.length!= 0))
+        {
+          $("#print").css("display", "inline-block");
+
+        }
         var dateofreceivedMessage = $('#dateofreceivedMessage').val();
 
        

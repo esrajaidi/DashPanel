@@ -152,10 +152,10 @@ class LocalBlockListsController extends Controller
 
     }
 
-    public function export(Request $request){
+    public function export(){
 
     $fileName="LocalBlockLists".str_replace( array( '\'', '/',"-" ), '', Now()->toDateString()).".xlsx";
-    return Excel::download(new LocalBlockListsExport($request), $fileName);
+    return Excel::download(new LocalBlockListsExport(), $fileName);
     }
    
 
@@ -189,7 +189,10 @@ class LocalBlockListsController extends Controller
             //  }
            
 
+
             DB::transaction(function () use ($request,$fileName) {
+                $fileName="OldVersionLocalBlockListsBefor".str_replace( array( '\'', '/',"-" ), '', Now()->toDateString()).".xlsx";
+                 Excel::store(new LocalBlockListsExport(), $fileName);
                 //remove old data
                 DB::table('local_block_lists')->delete();  
 

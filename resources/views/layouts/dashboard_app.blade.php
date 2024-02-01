@@ -84,6 +84,7 @@
                     </li>
                     @canany(['user-list', 'user-create' ,'user-edit','user-delete','user-changestatus'])
 
+                    
                     <li class="{{ Request::is('users*') ? 'current' : '' }} ">
                         <a class="waves-effect " href="{{ route('users') }}"><i class="menu-icon fa fa-users"></i><span>إدارة المستخدمين</span></a>
                     </li>
