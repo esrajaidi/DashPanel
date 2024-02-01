@@ -75,20 +75,17 @@
           <th>ر.ت</th>
           <th>البيان</th>
           <th>الجهة التي أصدرت التجميد</th>
-
           <th> تاريخ الرسالة الواردة</th>
           <th>الرقم الاشاري</th>
           <th>الملاحظات</th>
           <th></th>
           <th></th>
-
          </tr>
       </thead> 
       <tbody>
       
       </tbody>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
-  
       <script type="text/javascript">
 
 
@@ -143,18 +140,26 @@ $(document).ready(function(){
          });
 
 
+         $('#print').click(function(){
+        
+            var datatableResulttd=$('#local_block_lists_tbl tbody tr td').length;
+            var statement = $('#statement').val();
+
+            if(datatableResult=1)
+            window.location.href = "{{ route('local_block_lists/print',".1.")}}";
+
+         });
+
          $('#filter').click(function(){
         var statement = $('#statement').val();
         var index = $('#index').val();
 
-        if((index.length!= 0)  || (statement.length!= 0))
+        if((statement.length!= 0))
         {
           $("#print").css("display", "inline-block");
 
         }
-        var dateofreceivedMessage = $('#dateofreceivedMessage').val();
-
-       
+        var dateofreceivedMessage = $('#dateofreceivedMessage').val();       
             $('#local_block_lists_tbl').DataTable().destroy();
             fill_datatable(statement, index,dateofreceivedMessage);
         
