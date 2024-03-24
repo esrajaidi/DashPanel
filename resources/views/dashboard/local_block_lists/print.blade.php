@@ -20,23 +20,23 @@
         <link href="{{ asset('assets/styles/style-rtl.min.css') }}" rel="stylesheet" media="print">
 
         <style>
- 
+
  p{
      text-align: justify;
  }
   h4{
-      font-size: 12px;
+      font-size: 20px;
   }
      .kyc-title{
-        font-size: 14x
+        font-size: 20px
   }
   .kyc-title-en{
-    font-size: 14px
+    font-size: 20px
   }
   body, .form-control {
-  font-size: 10px;
+  font-size: 20px;
 }
-       
+
     .row {
   margin-right: -15px;
   margin-left: -15px;
@@ -81,7 +81,7 @@ ul {
 .checkbox, .radio {
   margin-top: 0px;
   margin-bottom: 0px;
- 
+
 }
 .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
   position: relative;
@@ -162,9 +162,9 @@ text-align: center
   }
 
   body, .form-control {
-     
+
   font-size: 10px;
-}  
+}
     .row {
   margin-right: -15px;
   margin-left: -15px;
@@ -209,7 +209,7 @@ ul {
 .checkbox, .radio {
   margin-top: 0px;
   margin-bottom: 0px;
- 
+
 }
 .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
   position: relative;
@@ -283,7 +283,7 @@ window.onafterprint = function(event) {
                         <h4 class="kyc-title"><b> </b> ونمودج</h4>
                         <hr style="margin: 0px;  border-top-color: #e1b531;">
                         <h4 class="kyc-title-en">Title</h4>
-       
+
                     </td>
                     <td>
                         <img  class="pull-left image_up" src="{{asset('/assets/images/logo.png')}}" alt="">
@@ -299,38 +299,38 @@ window.onafterprint = function(event) {
                                     <table>
                                       <tr>
                                         <td> الاسم </td>
-                                        <td> شركة النور لاستيراد الادوية والمعدات الطبية </td>
-                        
+                                        <td> {{$name}} </td>
+
                                       </tr>
                                       <tr>
                                         <td> World-Check Total Matches </td>
-                                        <td> 1 </td>
-                        
+                                        <td> {{$matches}} </td>
+
                                       </tr>
-                        
+
                                       <tr>
                                         <td>Last Screened </td>
-                                        <td> 11 Jan 2024 09:03</td>
-                        
+                                        <td> {{$date}}</td>
+
                                       </tr>
                                       <tr>
                                         <td>Case Created </td>
-                                        <td> 11 Jan 2024 09:03</td>
-                        
+                                        <td> {{$date}}</td>
+
                                       </tr>
-                        
+
                                     </table>
                                   </div>
               </div>
             </div>
-            
-       
+
+
         </div>
 </div>
-           
-                  
-       
-   
+
+
+
+
         </body>
-       
+
     </html>

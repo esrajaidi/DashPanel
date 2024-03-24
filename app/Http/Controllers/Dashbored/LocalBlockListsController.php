@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\LocalBlockListsImport;
 use App\Models\LocalBlockLists;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -31,10 +32,11 @@ class LocalBlockListsController extends Controller
         $this->middleware('permission:local_block_lists-edit', ['only' => ['edit','update']]);
         $this->middleware('permission:local_block_lists-export', ['only' => ['export']]);
 
-        
+
     }
-     
-  
+
+
+
     public function index(Request $request)
     {
     if ($request->ajax()) {
@@ -58,7 +60,7 @@ class LocalBlockListsController extends Controller
         });
     }
     })
-    ->addColumn('statu', function ($data) {    
+    ->addColumn('statu', function ($data) {
                     if($data->statu==0)
                     return '<span class="label label-success">رفع تجميد</span>';
                     else
@@ -66,33 +68,43 @@ class LocalBlockListsController extends Controller
                 })
                 ->addColumn('edit', function ($data) {
                     if(Auth::user()->can('local_block_lists-edit'))
-    
+
                     return '<a class="btn btn-primary btn-xs waves-effect waves-light" href="' . route('local_block_lists/edit',  encrypt($data->id)) . '">تعديل </a>';
-                    else 
-    
+                    else
+
                     return '';
-                
+
                 })
                 ->rawColumns(['statu','edit'])
                         ->make(true);
     }
        return view('dashboard.local_block_lists.index');
 }
-    
-
-   
 
 
-    
 
 
-   
-    
-    public function print(Request $request){
 
 
-        dd($request);
-        return view('dashboard.local_block_lists.print');
+
+
+
+
+    public function print($paramters){
+
+
+     $stringArray = explode(",", $paramters);
+
+     $name=$stringArray[0];
+     $matches=$stringArray[1];
+     $date = Carbon::now();
+
+
+
+        return view('dashboard.local_block_lists.print')
+        ->with('name',$name)
+        ->with('matches',$matches)
+        ->with('date',$date);
     }
     public function uplode(){
 
@@ -108,21 +120,21 @@ class LocalBlockListsController extends Controller
     $fileName="LocalBlockLists".str_replace( array( '\'', '/',"-" ), '', Now()->toDateString()).".xlsx";
     return Excel::download(new LocalBlockListsExport(), $fileName);
     }
-   
 
-    
+
+
     /**
      * Show the form for creating a new resource.
      */
-    
+
 
     public function storeUplode(Request $request)
     {
-        
+
 
         $messages = [
             'file_local_block_lists.required' => 'الرجاء تحميل ملف ',
-            
+
         ];
         $this->validate($request, [
             'file_local_block_lists' => ['required'],
@@ -138,18 +150,18 @@ class LocalBlockListsController extends Controller
             //     Alert::warning("لقد سبق وتم تحميل هذا الملف مسبقا (". $fileName.")");
             //     return redirect()->back();
             //  }
-           
+
 
 
             DB::transaction(function () use ($request,$fileName) {
                 $fileName="OldVersionLocalBlockListsBefor".str_replace( array( '\'', '/',"-" ), '', Now()->toDateString()).".xlsx";
                  Excel::store(new LocalBlockListsExport(), $fileName);
                 //remove old data
-                DB::table('local_block_lists')->delete();  
+                DB::table('local_block_lists')->delete();
 
                 Excel::import(new LocalBlockListsImport($fileName),
                       $request->file('file_local_block_lists')->store('files'));
-                      
+
             });
             ActivityLogger::activity('تمت عملية  تحميل ملف قوائم الحظر المحلية بنجاح');
 
@@ -162,7 +174,7 @@ class LocalBlockListsController extends Controller
 
             return redirect()->back();
         }
-       
+
     }
 
     public function create()
@@ -176,7 +188,7 @@ class LocalBlockListsController extends Controller
      */
     public function store(Request $request)
     {
-    
+
         $this->validate($request, [
             'statement' => ['required', 'string','unique:local_block_lists'],
             'hiddenBy' => ['required','string'],
@@ -243,8 +255,8 @@ class LocalBlockListsController extends Controller
             'index' => ['required','string'],
         ]);
 
-    
-        
+
+
 
         try {
             $localBlockLists = LocalBlockLists::find($localBlockLists_id);

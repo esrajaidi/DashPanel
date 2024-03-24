@@ -59,7 +59,7 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('branches/edit/{id}', [App\Http\Controllers\Dashbored\BrancheController::class, 'edit'])->name('branches/edit');
         Route::POST('branches/edit/{id}', [App\Http\Controllers\Dashbored\BrancheController::class, 'update'])->name('branches/update');
         Route::get('branches/changeStatus/{id}', [App\Http\Controllers\Dashbored\BrancheController::class, 'changeStatus'])->name('branches/changeStatus');
-    
+
 
 
 
@@ -72,18 +72,19 @@ Route::group(['middleware' => ['auth']], function() {
         Route::post('sms_messages/createbyexcel', [App\Http\Controllers\Dashbored\SMSMessagesController::class, 'storebyexcel'])->name('sms_messages/store_by_excel');
         Route::get('sms_messages/sendagain/{id}', [App\Http\Controllers\Dashbored\SMSMessagesController::class, 'sendagain'])->name('sms_messages/send_again');
 
-        
+
 
         Route::get('local_block_lists/uplode', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'uplode'])->name('local_block_lists/uplode');
         Route::post('local_block_lists/uplode', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'storeUplode'])->name('local_block_lists/store_uplode');
 
         Route::get('local_block_lists', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'index'])->name('local_block_lists');
+
         Route::get('local_block_lists/create', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'create'])->name('local_block_lists/create');
         Route::post('local_block_lists/create', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'store'])->name('local_block_lists/store');
 
         Route::get('local_block_lists/edit/{id}', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'edit'])->name('local_block_lists/edit');
         Route::POST('local_block_lists/edit/{id}', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'update'])->name('local_block_lists/update');
         Route::get('local_block_lists/export', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'export'])->name('local_block_lists/export');
-        Route::get('local_block_lists/print/{id}', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'print'])->name('local_block_lists/print');
+        Route::get('local_block_lists/print/{data}', [App\Http\Controllers\Dashbored\LocalBlockListsController::class, 'print'])->name('local_block_lists/print');
 
 });
