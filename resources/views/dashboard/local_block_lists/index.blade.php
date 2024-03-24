@@ -60,10 +60,12 @@
               <button type="button" name="filter" id="filter" class="btn btn-info">بحث</button>
 
               <button type="button" name="reset" id="reset" class="btn btn-default">تحديث</button>
+              @can('local_block_lists-print')
 
 
               <button type="button" name="print" id="print" style="display: none" class="btn btn-warning">طباعة</button>
 
+              @endcan
           </div>
           </div>
 

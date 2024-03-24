@@ -14,7 +14,7 @@ class PermissionTableSeeder extends Seeder
      */
     public function run(): void
     {
-       
+
         $permissions = [
             'role-list',//1
            'role-create',//2
@@ -41,21 +41,24 @@ class PermissionTableSeeder extends Seeder
            'local_block_lists-create' ,//19
             'local_block_lists-edit' ,//20
             'local_block_lists-export' ,//21
+            'local_block_lists-print' ,//22
+
+
 
 
          ];
-      
+
          foreach ($permissions  as $index => $permission) {
               Permission::create(['id'=> $index+1  ,'name' => $permission]);
 
-              
+
             }
 
 
 
-  
 
-    
+
+
 
 }
 }
