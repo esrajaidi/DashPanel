@@ -296,8 +296,8 @@ window.onafterprint = function(event) {
             <div class="card-content">
               <div class="row">
                                   <div class="col-xs-12">
-                                    <table>
-                                      <tr>
+                                    <table style="width: 100%">
+                                      <tr style="background: color(srgb 0.115 0.3214 0.59 / 0.19);">
                                         <td> الاسم </td>
                                         <td> {{$name}} </td>
 
@@ -308,14 +308,19 @@ window.onafterprint = function(event) {
 
                                       </tr>
 
-                                      <tr>
-                                        <td>Last Screened </td>
+                                      <tr style="background: color(srgb 0.115 0.3214 0.59 / 0.19);">
+                                        <td>آخر عرض </td>
                                         <td> {{$date}}</td>
 
                                       </tr>
                                       <tr>
-                                        <td>Case Created </td>
+                                        <td>تم إنشاء الحالة </td>
                                         <td> {{$date}}</td>
+
+                                      </tr>
+                                      <tr style="background: color(srgb 0.115 0.3214 0.59 / 0.19);">
+                                        <td> تصرف من قبل </td>
+                                        <td> {{Auth::user()->username}} </td>
 
                                       </tr>
 
@@ -324,8 +329,8 @@ window.onafterprint = function(event) {
               </div>
             </div>
 
-
         </div>
+
 </div>
 
 
