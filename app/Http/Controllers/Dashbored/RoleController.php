@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace App\Http\Controllers\Dashbored;
 
 use App\Http\Controllers\Controller;
@@ -23,7 +23,7 @@ class RoleController extends Controller
          $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +37,7 @@ class RoleController extends Controller
         return view('dashboard.roles.index',compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 10);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -48,7 +48,7 @@ class RoleController extends Controller
         $permission = Permission::get();
         return view('dashboard.roles/create',compact('permission'));
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -57,7 +57,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $messages = [
             'name.required' => 'الرجاء ادخل الاسم',
             'name.unique'=>'الاسم  مستخدم مسبقا ',
@@ -73,9 +73,14 @@ class RoleController extends Controller
             DB::transaction(function () use ($request) {
 
             $role = Role::create(['name' => $request->input('name')]);
-            $role->syncPermissions($request->input('permission'));
-        
-            
+
+            // Retrieve permission models from the provided IDs
+            $permissions = Permission::whereIn('id', $request->input('permission'))->get();
+
+            // Sync the permissions with the role
+            $role->syncPermissions($permissions);
+
+
             });
 
             Alert::success('تمت عملية إضافة صلاحية بنجاح');
@@ -88,7 +93,7 @@ class RoleController extends Controller
             return redirect()->back();
         }
         ;
-                      
+
     }
     /**
      * Display the specified resource.
@@ -104,10 +109,10 @@ class RoleController extends Controller
         $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
             ->where("role_has_permissions.role_id",$role_id)
             ->get();
-    
+
         return view('dashboard.roles/show',compact('role','rolePermissions'));
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -123,10 +128,10 @@ class RoleController extends Controller
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$role_id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-    
+
         return view('dashboard.roles/edit',compact('role','permission','rolePermissions'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -138,7 +143,7 @@ class RoleController extends Controller
     {
         $role_id = decrypt($id);
 
-       
+
         $messages = [
             'name.required' => 'الرجاء ادخل الاسم',
             'name.unique'=>'الاسم  مستخدم مسبقا ',
@@ -156,10 +161,11 @@ class RoleController extends Controller
                 $role = Role::find($role_id);
                 $role->name = $request->input('name');
                 $role->save();
-            
-                $role->syncPermissions($request->input('permission'));
-            
-            
+                $permissions = Permission::whereIn('id', $request->input('permission'))->get();
+
+                $role->syncPermissions($permissions);
+
+
             });
 
             Alert::success('تمت عملية تعديل بيانات صلاحية بنجاح');
@@ -171,8 +177,8 @@ class RoleController extends Controller
             ActivityLogger::activity($role_id . ":فشل عملية تعديل بيانات صلاحية");
             return redirect()->back();
         }
-       
-                        
+
+
     }
     /**
      * Remove the specified resource from storage.
@@ -197,7 +203,7 @@ class RoleController extends Controller
 
                 DB::table("roles")->where('id',$role_id)->delete();
                 return redirect()->route('roles');
-            
+
             });
 
             Alert::success('تمت عملية الغاء صلاحية بنجاح');
@@ -209,7 +215,7 @@ class RoleController extends Controller
             ActivityLogger::activity($role_id . ":فشل عملية الغاء صلاحية");
             return redirect()->back();
         }
-       
-                       
+
+
     }
 }

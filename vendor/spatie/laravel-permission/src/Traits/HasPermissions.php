@@ -441,6 +441,7 @@ trait HasPermissions
             $this->setRelation('permissions', collect());
         }
 
+
         return $this->givePermissionTo($permissions);
     }
 
