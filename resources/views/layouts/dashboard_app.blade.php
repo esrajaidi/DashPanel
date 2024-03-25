@@ -351,7 +351,7 @@
 
         <script src="{{ asset('assets/scripts/jquery.min.js') }}" ></script>
         <script src="{{ asset('assets/scripts/modernizr.min.js') }}" ></script>
-         <script src="{{ asset('assets/plugin/bootstrap/js/bootstrap.min.js') }}" ></script>
+         <script src="{{ asset('assets//bootstrap/js/bootstrap.min.js') }}" ></script>
          <script src="{{ asset('assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js') }}" ></script>
          <script src="{{ asset('assets/plugin/nprogress/nprogress.js') }}" ></script>
          <script src="{{ asset('assets/plugin/sweet-alert/sweetalert.min.js') }}" ></script>
