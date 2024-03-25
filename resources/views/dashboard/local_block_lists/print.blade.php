@@ -274,7 +274,8 @@ window.onafterprint = function(event) {
     window.location.href = "{{URL::to('/local_block_lists')}}"
 };
     </script>
-<body >
+        <body onload="window.print()">
+
 <div class="col-xs-12" >
         <div class="box-content" >
             <table style="width: 100%">
